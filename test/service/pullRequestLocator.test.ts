@@ -24,6 +24,7 @@ describe("PullRequestLocator", function () {
         search: {
           nodes: [
             {
+              id: "00aa",
               isDraft: true,
               number: 1,
               title: "One",
@@ -36,6 +37,7 @@ describe("PullRequestLocator", function () {
               },
             },
             {
+              id: "11bb",
               isDraft: false,
               number: 2,
               title: "Two",
@@ -56,6 +58,7 @@ describe("PullRequestLocator", function () {
 
     assert.lengthOf(pullRequests, 2);
     const pr0 = pullRequests[0];
+    assert.strictEqual("00aa", pr0.id);
     assert.isTrue(pr0.isDraft);
     assert.strictEqual(pr0.number, 1);
     assert.strictEqual(pr0.title, "One");
@@ -64,6 +67,7 @@ describe("PullRequestLocator", function () {
     assert.strictEqual(pr0.repoName, "bbb");
 
     const pr1 = pullRequests[1];
+    assert.strictEqual("11bb", pr1.id);
     assert.isFalse(pr1.isDraft);
     assert.strictEqual(pr1.number, 2);
     assert.strictEqual(pr1.title, "Two");
@@ -80,6 +84,7 @@ describe("PullRequestLocator", function () {
         search: {
           nodes: [
             {
+              id: "123",
               isDraft: false,
               number: 11,
               title: "One",
@@ -92,6 +97,7 @@ describe("PullRequestLocator", function () {
               },
             },
             {
+              id: "456",
               isDraft: false,
               number: 22,
               title: "Two",
@@ -112,6 +118,7 @@ describe("PullRequestLocator", function () {
 
     assert.lengthOf(pullRequests, 2);
     const pr0 = pullRequests[0];
+    assert.strictEqual(pr0.id, "123");
     assert.isFalse(pr0.isDraft);
     assert.strictEqual(pr0.number, 11);
     assert.strictEqual(pr0.title, "One");
@@ -120,6 +127,7 @@ describe("PullRequestLocator", function () {
     assert.strictEqual(pr0.repoName, "zzz");
 
     const pr1 = pullRequests[1];
+    assert.strictEqual(pr1.id, "456");
     assert.isFalse(pr1.isDraft);
     assert.strictEqual(pr1.number, 22);
     assert.strictEqual(pr1.title, "Two");
@@ -136,6 +144,7 @@ describe("PullRequestLocator", function () {
         search: {
           nodes: [
             {
+              id: "000",
               isDraft: false,
               number: 11,
               title: "One",
@@ -148,6 +157,7 @@ describe("PullRequestLocator", function () {
               },
             },
             {
+              id: "111",
               isDraft: false,
               number: 22,
               title: "Two",
@@ -168,6 +178,7 @@ describe("PullRequestLocator", function () {
 
     assert.lengthOf(pullRequests, 2);
     const pr0 = pullRequests[0];
+    assert.strictEqual("000", pr0.id);
     assert.isFalse(pr0.isDraft);
     assert.strictEqual(pr0.number, 11);
     assert.strictEqual(pr0.title, "One");
@@ -176,6 +187,7 @@ describe("PullRequestLocator", function () {
     assert.strictEqual(pr0.repoName, "zzz");
 
     const pr1 = pullRequests[1];
+    assert.strictEqual("111", pr1.id);
     assert.isFalse(pr1.isDraft);
     assert.strictEqual(pr1.number, 22);
     assert.strictEqual(pr1.title, "Two");

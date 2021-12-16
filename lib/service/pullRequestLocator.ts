@@ -20,6 +20,7 @@ export class PullRequestLocator {
 
     return pullRequestData.search.nodes.map(node => {
       return new PullRequest(
+        node.id,
         node.baseRepository.owner.login,
         node.baseRepository.name,
         node.number,

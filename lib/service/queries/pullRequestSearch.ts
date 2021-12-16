@@ -3,6 +3,7 @@ query($search: String!) {
   search(query: $search, first: 30, type: ISSUE) {
     nodes {
       ... on PullRequest {
+        id
         isDraft
         number
         title
@@ -22,6 +23,7 @@ query($search: String!) {
 export interface PullRequestSearchQueryResponse {
   search: {
     nodes: {
+      id: string;
       isDraft: boolean;
       number: number;
       title: string;

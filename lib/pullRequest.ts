@@ -1,6 +1,7 @@
 import type {Status} from "./status";
 
 export class PullRequest {
+  id: string;
   repoOwner: string;
   repoName: string;
   number: number;
@@ -11,6 +12,7 @@ export class PullRequest {
   statuses: Status[] = [];
 
   constructor(
+    id: string,
     repoOwner: string,
     repoName: string,
     number: number,
@@ -18,6 +20,7 @@ export class PullRequest {
     url: string,
     isDraft: boolean
   ) {
+    this.id = id;
     this.repoOwner = repoOwner;
     this.repoName = repoName;
     this.number = number;
