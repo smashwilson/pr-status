@@ -1,3 +1,4 @@
+import { RequestedReview } from "./requestedReview";
 import type {Status} from "./status";
 
 export class PullRequest {
@@ -9,7 +10,8 @@ export class PullRequest {
   url: string;
   isDraft: boolean;
 
-  statuses: Status[] = [];
+  statuses: Status[];
+  requestedReviews: RequestedReview[];
 
   constructor(
     id: string,
@@ -18,7 +20,9 @@ export class PullRequest {
     number: number,
     title: string,
     url: string,
-    isDraft: boolean
+    isDraft: boolean,
+    statuses: Status[],
+    requestedReviews: RequestedReview[],
   ) {
     this.id = id;
     this.repoOwner = repoOwner;
@@ -27,5 +31,7 @@ export class PullRequest {
     this.title = title;
     this.url = url;
     this.isDraft = isDraft;
+    this.statuses = statuses;
+    this.requestedReviews = requestedReviews;
   }
 }

@@ -1,9 +1,7 @@
 export class Status {
-  isRequired: boolean;
   url: string;
 
-  constructor(isRequired: boolean, url: string) {
-    this.isRequired = isRequired;
+  constructor(url: string) {
     this.url = url;
   }
 
