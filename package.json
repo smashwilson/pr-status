@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Dashboard reporting build and review status of your open pull requests",
   "main": "build/index.js",
+  "bin": {
+    "pr-status": "build/cli.js"
+  },
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
