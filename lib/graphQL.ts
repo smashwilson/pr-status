@@ -2,35 +2,20 @@ import type {Response} from "node-fetch";
 import fetch from "node-fetch";
 
 export interface Variables {
-  [name: string]: string;
+  [name: string]: string | string[] | null;
 }
 
-export class ServerError {
-  name: string = "ServerError";
-  message: string;
+export interface ServerError extends Error {
   response: Response;
-
-  constructor(message: string, response: Response) {
-    this.message = message;
-    this.response = response;
-  }
 }
-
-interface ErrorField {
+interface ErrorField{
   message: string;
   type: string;
   path: string[];
 }
 
-export class QueryError {
-  name: string = "QueryError";
-  message: string;
+export interface QueryError extends Error {
   errors: ErrorField[];
-
-  constructor(message: string, errors: ErrorField[]) {
-    this.message = message;
-    this.errors = errors;
-  }
 }
 
 export class GraphQL {
@@ -49,18 +34,20 @@ export class GraphQL {
         "Content-Type": "application/json",
         Authorization: `bearer ${this.token}`,
       },
+      body: JSON.stringify({query, variables}),
     });
 
     if (response.status !== 200) {
-      throw new ServerError("Unable to query GraphQL API", response);
+      const error = new Error("Unable to query GraphQL API") as ServerError;
+      error.response = response;
+      throw error;
     }
 
     const payload = await response.json();
     if (payload.errors) {
-      throw new QueryError(
-        "The GraphQL query encountered errors",
-        payload.errors
-      );
+      const error = new Error("The GraphQL query encountered errors") as QueryError;
+      error.errors = payload.errors;
+      throw error;
     }
 
     return payload.data;
