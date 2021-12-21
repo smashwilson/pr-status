@@ -6,5 +6,6 @@
     "outDir": "./build/",
     "rootDir": "./lib/"
   },
-  "include": ["./lib/**/*"]
+  "include": ["./lib/**/*"],
+  "exclude": ["./build/**/*"]
 }
