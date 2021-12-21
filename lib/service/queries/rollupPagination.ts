@@ -1,4 +1,7 @@
-import { StatusCheckRollupFragment, statusCheckRollupFragment } from "./statusCheckRollupFragment";
+import {
+  StatusCheckRollupFragment,
+  statusCheckRollupFragment,
+} from "./statusCheckRollupFragment";
 
 export const rollupPaginationQuery = `
 query($rollupId: ID!, $rollupCursor: String) {
@@ -8,7 +11,7 @@ query($rollupId: ID!, $rollupCursor: String) {
 }
 
 ${statusCheckRollupFragment}
-`
+`;
 
 export interface RollupPaginationResponse {
   node?: StatusCheckRollupFragment;

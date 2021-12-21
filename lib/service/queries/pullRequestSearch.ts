@@ -1,5 +1,8 @@
-import { ReviewState } from "../../review";
-import { StatusCheckRollupFragment, statusCheckRollupFragment } from "./statusCheckRollupFragment";
+import {ReviewState} from "../../model/review";
+import {
+  StatusCheckRollupFragment,
+  statusCheckRollupFragment,
+} from "./statusCheckRollupFragment";
 
 export const pullRequestSearchQuery = `
 query($search: String!, $rollupCursor: String) {
@@ -81,14 +84,14 @@ export interface PullRequestSearchResponse {
         nodes: {
           author: {
             login: string;
-          }
+          };
           state: ReviewState;
           onBehalfOf: {
             nodes: {
               slug: string;
-            }[],
-          },
-        }[],
+            }[];
+          };
+        }[];
       };
       reviewRequests: {
         nodes: {
@@ -97,7 +100,7 @@ export interface PullRequestSearchResponse {
             slug?: string;
           };
         }[];
-      },
+      };
       commits: {
         nodes: {
           commit: {
@@ -106,5 +109,5 @@ export interface PullRequestSearchResponse {
         }[];
       };
     }[];
-  }
+  };
 }

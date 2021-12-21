@@ -1,4 +1,6 @@
-export class Status {
+import {Formatter} from "../formatter/formatter";
+
+export abstract class Status {
   url: string;
 
   constructor(url: string) {
@@ -31,11 +33,13 @@ export class Status {
     } else if (this.isSuccess()) {
       return "✅";
     } else if (this.isNeutral()) {
-      return "☑️";
+      return "☑️ ";
     } else if (this.isFailed()) {
       return "❌";
     } else {
       return "❔";
     }
   }
+
+  abstract formatter(): Formatter;
 }

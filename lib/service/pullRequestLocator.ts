@@ -1,10 +1,10 @@
-import {CheckRunStatus} from "../checkRunStatus";
-import {ContextStatus} from "../contextStatus";
+import {CheckRunStatus} from "../model/checkRunStatus";
+import {ContextStatus} from "../model/contextStatus";
 import type {GraphQL} from "../graphQL";
-import {PullRequest} from "../pullRequest";
-import {RequestedReview} from "../requestedReview";
-import {Review} from "../review";
-import {Status} from "../status";
+import {PullRequest} from "../model/pullRequest";
+import {RequestedReview} from "../model/requestedReview";
+import {Review} from "../model/review";
+import {Status} from "../model/status";
 import {
   pullRequestSearchQuery,
   PullRequestSearchResponse,
@@ -138,17 +138,18 @@ export class PullRequestLocator {
   }
 
   private async collectRollupPages(pending: Set<RollupPageRequest>) {
-    let nextRollups = pending;
-    while (nextRollups.size > 0) {
-      nextRollups.clear();
+    let currentRollups = pending;
+    while (currentRollups.size > 0) {
+      const nextRollups = new Set<RollupPageRequest>();
       await Promise.all(
-        Array.from(pending, async (rollup) => {
+        Array.from(currentRollups, async (rollup) => {
           const nextRollup = await this.getNextRollupPage(rollup);
           if (nextRollup) {
             nextRollups.add(nextRollup);
           }
         })
       );
+      currentRollups = nextRollups;
     }
   }
 

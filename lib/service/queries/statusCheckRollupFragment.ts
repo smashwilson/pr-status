@@ -1,5 +1,8 @@
-import { CheckConclusionState, CheckStatusState } from "../../checkRunStatus";
-import { StatusState } from "../../contextStatus";
+import {
+  CheckConclusionState,
+  CheckStatusState,
+} from "../../model/checkRunStatus";
+import {StatusState} from "../../model/contextStatus";
 
 export const statusCheckRollupFragment = `
 fragment statusCheckRollup on StatusCheckRollup {
@@ -34,7 +37,7 @@ fragment statusCheckRollup on StatusCheckRollup {
     }
   }
 }
-`
+`;
 
 export interface CheckRunResponse {
   __typename: string;
@@ -53,7 +56,7 @@ export interface CheckRunResponse {
 
 export interface StatusContextResponse {
   __typename: string;
-  id: string
+  id: string;
   context: string;
   state: StatusState;
   targetUrl: string;
@@ -70,10 +73,14 @@ export interface StatusCheckRollupFragment {
   };
 }
 
-export function isCheckRun(node: StatusCheckRollupFragment["contexts"]["nodes"][number]): node is CheckRunResponse {
+export function isCheckRun(
+  node: StatusCheckRollupFragment["contexts"]["nodes"][number]
+): node is CheckRunResponse {
   return node.__typename === "CheckRun";
 }
 
-export function isStatusContext(node: StatusCheckRollupFragment["contexts"]["nodes"][number]): node is StatusContextResponse {
+export function isStatusContext(
+  node: StatusCheckRollupFragment["contexts"]["nodes"][number]
+): node is StatusContextResponse {
   return node.__typename === "StatusContext";
 }
