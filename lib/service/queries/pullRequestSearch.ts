@@ -38,7 +38,6 @@ query($search: String!, $rollupCursor: String) {
         }
         reviewRequests(first: 20) {
           nodes {
-            asCodeOwner
             requestedReviewer {
               ... on Team {
                 slug
@@ -95,7 +94,6 @@ export interface PullRequestSearchResponse {
       };
       reviewRequests: {
         nodes: {
-          asCodeOwner: boolean;
           requestedReviewer: {
             slug?: string;
           };

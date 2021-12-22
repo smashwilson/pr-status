@@ -85,7 +85,7 @@ export class PullRequestLocator {
     const requestedReviewsById = new Map<string, RequestedReview>();
     for (const reviewRequestNode of pullRequestNode.reviewRequests.nodes) {
       const teamName = reviewRequestNode.requestedReviewer.slug;
-      if (reviewRequestNode.asCodeOwner && teamName) {
+      if (teamName) {
         requestedReviewsById.set(teamName, new RequestedReview(teamName));
       }
     }

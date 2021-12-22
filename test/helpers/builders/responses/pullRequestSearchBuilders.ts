@@ -72,7 +72,6 @@ export const PullRequestSearchBuilder =
                 nodes: {
                   plural: true,
                   nested: createBuilderClass<ReviewRequestNode>()({
-                    asCodeOwner: {default: true},
                     requestedReviewer: {
                       nested: createBuilderClass<
                         ReviewRequestNode["requestedReviewer"]
