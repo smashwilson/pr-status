@@ -21,7 +21,7 @@ export class CheckRunStatusFormatter implements Formatter {
     }
 
     if (this.status.isFailed()) {
-      parts.push(` [${chalk.underline(this.status.url)}]`);
+      parts.push(chalk.underline(this.status.url));
     }
 
     return parts.join(" ");
