@@ -42,7 +42,6 @@ export class Invocation {
       .option(["r", "repo"], "Limit results to PRs in this repo", [])
       .option(["w", "wait"], "Poll for updates", false)
       .option(["v", "verbose"], "Include successful builds in output", false);
-    console.log(argv);
     const flags = args.parse(argv);
 
     const token: string = flags.token || env.GH_GH_PAT || env.GITHUB_TOKEN;
