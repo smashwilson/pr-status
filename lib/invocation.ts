@@ -8,17 +8,21 @@ export interface TerminationError extends Error {
   exitCode: number;
 }
 
-class Invocation {
+export interface OutputWriter {
+  write(str: string): void;
+}
+
+export class Invocation {
   token: string;
   repos: string[];
   wait: boolean;
   verbose: boolean;
   graphql: GraphQL;
-  output: NodeJS.WritableStream;
+  output: OutputWriter;
 
   constructor(
     graphql: GraphQL,
-    output: NodeJS.WritableStream,
+    output: OutputWriter,
     token: string,
     repos: string[] = [],
     wait: false,
@@ -38,6 +42,7 @@ class Invocation {
       .option(["r", "repo"], "Limit results to PRs in this repo", [])
       .option(["w", "wait"], "Poll for updates", false)
       .option(["v", "verbose"], "Include successful builds in output", false);
+    console.log(argv);
     const flags = args.parse(argv);
 
     const token: string = flags.token || env.GH_GH_PAT || env.GITHUB_TOKEN;
