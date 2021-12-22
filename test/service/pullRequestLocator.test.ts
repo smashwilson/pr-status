@@ -280,92 +280,164 @@ describe("PullRequestLocator", function () {
     });
   });
 
-  it("collects requested reviews and collates them with received reviews", async function () {
-    const response = new PullRequestSearchBuilder()
-      .search((searchB) => {
-        searchB.nodes.add((prB) => {
-          prB.reviewRequests((reqConnB) => {
-            reqConnB.nodes.add((reqB) => {
-              reqB.requestedReviewer((revB) => revB.slug("team-0"));
+  describe("reviews", function () {
+    it("collects requested reviews and collates them with received reviews", async function () {
+      const response = new PullRequestSearchBuilder()
+        .search((searchB) => {
+          searchB.nodes.add((prB) => {
+            prB.reviewRequests((reqConnB) => {
+              reqConnB.nodes.add((reqB) => {
+                reqB.requestedReviewer((revB) => revB.slug("team-0"));
+              });
+              reqConnB.nodes.add((reqB) => {
+                reqB.requestedReviewer((revB) => revB.slug("team-1"));
+              });
+              reqConnB.nodes.add((reqB) => {
+                reqB.requestedReviewer((revB) => revB.slug("team-2"));
+              });
             });
-            reqConnB.nodes.add((reqB) => {
-              reqB.requestedReviewer((revB) => revB.slug("team-1"));
-            });
-            reqConnB.nodes.add((reqB) => {
-              reqB.requestedReviewer((revB) => revB.slug("team-2"));
+
+            prB.reviews((revConnB) => {
+              revConnB.nodes.add((revB) => {
+                revB.author((authorB) => authorB.login("author-0"));
+                revB.onBehalfOf((behalfB) => {
+                  behalfB.nodes.add((teamB) => teamB.slug("team-2"));
+                });
+                revB.state("COMMENTED");
+              });
+              revConnB.nodes.add((revB) => {
+                revB.author((authorB) => authorB.login("author-1"));
+                revB.onBehalfOf((behalfB) => {
+                  behalfB.nodes.add((teamB) => teamB.slug("team-0"));
+                });
+                revB.state("DISMISSED");
+              });
+              revConnB.nodes.add((revB) => {
+                revB.author((authorB) => authorB.login("author-2"));
+                revB.onBehalfOf((behalfB) => {
+                  behalfB.nodes.add((teamB) => teamB.slug("team-2"));
+                  behalfB.nodes.add((teamB) => teamB.slug("team-0"));
+                });
+                revB.state("APPROVED");
+              });
+              revConnB.nodes.add((revB) => {
+                revB.author((authorB) => authorB.login("author-3"));
+                revB.onBehalfOf((behalfB) => {
+                  behalfB.nodes.add((teamB) => teamB.slug("team-999"));
+                });
+                revB.state("CHANGES_REQUESTED");
+              });
             });
           });
+        })
+        .build();
 
-          prB.reviews((revConnB) => {
-            revConnB.nodes.add((revB) => {
-              revB.author((authorB) => authorB.login("author-0"));
-              revB.onBehalfOf((behalfB) => {
-                behalfB.nodes.add((teamB) => teamB.slug("team-2"));
+      graphQL.expect(
+        pullRequestSearchQuery,
+        {
+          search: "is:pr author:@me state:open",
+          rollupCursor: null,
+        },
+        response
+      );
+
+      const prs = await locator.inRepositories([]);
+      assert.lengthOf(prs, 1);
+      const pr = prs[0];
+
+      assert.lengthOf(pr.requestedReviews, 4);
+
+      const rr0 = pr.requestedReviews[0];
+      assert.strictEqual(rr0.teamName, "team-0");
+      assert.lengthOf(rr0.receivedReviews, 2);
+      assert.deepEqual(["author-1", "author-2"], rr0.reviewers());
+      assert.strictEqual(rr0.summarizedState(), "APPROVED");
+
+      const rr1 = pr.requestedReviews[1];
+      assert.strictEqual(rr1.teamName, "team-1");
+      assert.isEmpty(rr1.receivedReviews);
+
+      const rr2 = pr.requestedReviews[2];
+      assert.strictEqual(rr2.teamName, "team-2");
+      assert.lengthOf(rr2.receivedReviews, 2);
+      assert.deepEqual(["author-0", "author-2"], rr2.reviewers());
+      assert.strictEqual(rr2.summarizedState(), "APPROVED");
+
+      const rr3 = pr.requestedReviews[3];
+      assert.strictEqual(rr3.teamName, "team-999");
+      assert.lengthOf(rr3.receivedReviews, 1);
+      assert.deepEqual(["author-3"], rr3.reviewers());
+      assert.strictEqual(rr3.summarizedState(), "CHANGES_REQUESTED");
+    });
+
+    it("disregards non-team review requests", async function () {
+      const response = new PullRequestSearchBuilder()
+        .search((searchB) => {
+          searchB.nodes.add((prB) => {
+            prB.reviewRequests((reqConnB) => {
+              reqConnB.nodes.add((reqB) => {
+                reqB.requestedReviewer((revB) => revB.slug("team-0"));
               });
-              revB.state("COMMENTED");
-            });
-            revConnB.nodes.add((revB) => {
-              revB.author((authorB) => authorB.login("author-1"));
-              revB.onBehalfOf((behalfB) => {
-                behalfB.nodes.add((teamB) => teamB.slug("team-0"));
+              reqConnB.nodes.add((reqB) => {
+                reqB.requestedReviewer((revB) => revB.slug(undefined));
               });
-              revB.state("DISMISSED");
-            });
-            revConnB.nodes.add((revB) => {
-              revB.author((authorB) => authorB.login("author-2"));
-              revB.onBehalfOf((behalfB) => {
-                behalfB.nodes.add((teamB) => teamB.slug("team-2"));
-                behalfB.nodes.add((teamB) => teamB.slug("team-0"));
-              });
-              revB.state("APPROVED");
-            });
-            revConnB.nodes.add((revB) => {
-              revB.author((authorB) => authorB.login("author-3"));
-              revB.onBehalfOf((behalfB) => {
-                behalfB.nodes.add((teamB) => teamB.slug("team-999"));
-              });
-              revB.state("CHANGES_REQUESTED");
             });
           });
-        });
-      })
-      .build();
+        })
+        .build();
 
-    graphQL.expect(
-      pullRequestSearchQuery,
-      {
-        search: "is:pr author:@me state:open",
-        rollupCursor: null,
-      },
-      response
-    );
+      graphQL.expect(
+        pullRequestSearchQuery,
+        {
+          search: "is:pr author:@me state:open",
+          rollupCursor: null,
+        },
+        response
+      );
 
-    const prs = await locator.inRepositories([]);
-    assert.lengthOf(prs, 1);
-    const pr = prs[0];
+      const prs = await locator.inRepositories([]);
+      assert.lengthOf(prs, 1);
+      const pr = prs[0];
 
-    assert.lengthOf(pr.requestedReviews, 4);
+      assert.lengthOf(pr.requestedReviews, 1);
+      assert.strictEqual(pr.requestedReviews[0].teamName, "team-0");
+    });
 
-    const rr0 = pr.requestedReviews[0];
-    assert.strictEqual(rr0.teamName, "team-0");
-    assert.lengthOf(rr0.receivedReviews, 2);
-    assert.deepEqual(["author-1", "author-2"], rr0.reviewers());
-    assert.strictEqual(rr0.summarizedState(), "APPROVED");
+    it("disregards reviews not given on behalf of a team", async function () {
+      const response = new PullRequestSearchBuilder()
+        .search((searchB) => {
+          searchB.nodes.add((prB) => {
+            prB.reviewRequests((reqConnB) => {
+              reqConnB.nodes.add((reqB) => {
+                reqB.requestedReviewer((revB) => revB.slug("team-0"));
+              });
+            });
 
-    const rr1 = pr.requestedReviews[1];
-    assert.strictEqual(rr1.teamName, "team-1");
-    assert.isEmpty(rr1.receivedReviews);
+            prB.reviews((revConnB) => {
+              revConnB.nodes.add((revB) => {
+                revB.author((authorB) => authorB.login("author-0"));
+                revB.state("APPROVED");
+              });
+            });
+          });
+        })
+        .build();
 
-    const rr2 = pr.requestedReviews[2];
-    assert.strictEqual(rr2.teamName, "team-2");
-    assert.lengthOf(rr2.receivedReviews, 2);
-    assert.deepEqual(["author-0", "author-2"], rr2.reviewers());
-    assert.strictEqual(rr2.summarizedState(), "APPROVED");
+      graphQL.expect(
+        pullRequestSearchQuery,
+        {
+          search: "is:pr author:@me state:open",
+          rollupCursor: null,
+        },
+        response
+      );
 
-    const rr3 = pr.requestedReviews[3];
-    assert.strictEqual(rr3.teamName, "team-999");
-    assert.lengthOf(rr3.receivedReviews, 1);
-    assert.deepEqual(["author-3"], rr3.reviewers());
-    assert.strictEqual(rr3.summarizedState(), "CHANGES_REQUESTED");
+      const prs = await locator.inRepositories([]);
+      assert.lengthOf(prs, 1);
+      const pr = prs[0];
+      assert.lengthOf(pr.requestedReviews, 1);
+      assert.strictEqual(pr.requestedReviews[0].teamName, "team-0");
+      assert.isEmpty(pr.requestedReviews[0].receivedReviews);
+    });
   });
 });
