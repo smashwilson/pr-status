@@ -1,9 +1,40 @@
-# TypeScript module template
+# pr-status
 
-It takes me way too long to remember how to set up all the infrastructure for a new npm module. This is a template repository intended to save some redundant work.
+Command-line script to produce a report of your open pull requests, including the current status of builds and requested code reviews. It can optionally poll for updates.
 
-It's a basic but opinionated tech stack:
+## Installation
 
-- TypeScript
-- Prettier (formatting + linting)
-- Mocha + Chai (tests + assertions)
+pr-status is tested on [Node.JS 16](https://nodejs.org/en/). Use `npm` to install:
+
+```bash
+npm install -g @smashwilson/pr-status
+```
+
+## Usage
+
+You must provide a valid [GitHub API token](https://github.com/settings/tokens), with at least the `repo` permission, for the script to use. You may provide this token in one of three ways:
+
+- An environment variable called `GITHUB_TOKEN`;
+- An environment variable called `GH_GH_PAT`;
+- Or by passing it as an argument to the `-t` or `--token` command-line arguments.
+
+Pull request results may optionally be scoped by repository. Specify `-r` or `--repo` several times to only include pull requests within the named repositories.
+If omitted, results from _all_ repositories will be included, unless a `GITHUB_REPOSITORY` environment variable is present and non-empty (such as within a Codespace), in which case its value will be used.
+
+Otherwise, here's the usage:
+
+```
+Usage: pr status [options] [command]
+
+Commands:
+  help     Display help
+  version  Display version
+
+Options:
+  -h, --help         Output usage information
+  -r, --repo <list>  Limit results to PRs in this repo (defaults to [])
+  -t, --token        GitHub API token used for queries (defaults to "")
+  -v, --verbose      Include successful builds in output (disabled by default)
+  -V, --version      Output the version number
+  -w, --wait         Poll for updates (disabled by default)
+```
