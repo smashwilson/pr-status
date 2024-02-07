@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/smashwilson/pr-status#readme",
   "devDependencies": {
-    "@tsconfig/node16": "^16.1.0",
+    "@tsconfig/node20": "^20.1.2",
     "@types/args": "^5.0.0",
     "@types/chai": "^4.2.1",
     "@types/mocha": "^10.0.0",
@@ -36,7 +36,7 @@
     "nested-builder": "^1.1.1",
     "prettier": "^3.0.1",
     "ts-node": "^10.4.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "args": "^5.0.1",
