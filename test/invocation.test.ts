@@ -1,4 +1,5 @@
 import {assert} from "chai";
+import {fileURLToPath} from "url";
 import {Invocation} from "../lib/invocation.js";
 import {pullRequestSearchQuery} from "../lib/service/queries/pullRequestSearch.js";
 import {PullRequestSearchBuilder} from "./helpers/builders/responses/pullRequestSearchBuilders.js";
@@ -7,7 +8,8 @@ import {StringBuffer} from "./helpers/stringBuffer.js";
 
 describe("Invocation", function () {
   function args(...args: string[]) {
-    return [process.argv[0], __filename, ...args];
+    const filename = fileURLToPath(import.meta.url);
+    return [process.argv[0], filename, ...args];
   }
 
   describe("configuredFrom", function () {
