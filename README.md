@@ -4,7 +4,7 @@ Command-line script to produce a report of your open pull requests, including th
 
 ## Installation
 
-pr-status is tested on [Node.JS 16](https://nodejs.org/en/). Use `npm` to install:
+pr-status is tested on [Node.JS 20](https://nodejs.org/en/). Use `npm` to install:
 
 ```bash
 npm install -g @smashwilson/pr-status
