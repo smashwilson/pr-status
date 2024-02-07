@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import {buildReview} from "../helpers/builders/reviewBuilder";
+import {buildReview} from "../helpers/builders/reviewBuilder.js";
 
 describe("Review", function () {
   it("identifies a non-neutral review", function () {

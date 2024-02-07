@@ -57,7 +57,7 @@ export class GraphQL {
       throw error;
     }
 
-    const payload = await response.json();
+    const payload = await response.json() as any;
     if (payload.errors) {
       const error = new Error(
         "The GraphQL query encountered errors"

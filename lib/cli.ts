@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import {main} from "./invocation";
+import {main} from "./invocation.js";
 
 main(process.argv, process.env).catch((error) => {
   if (error.exitCode) {

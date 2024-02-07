@@ -1,5 +1,5 @@
-import {RequestedReview} from "../model/requestedReview";
-import {Formatter} from "./formatter";
+import {RequestedReview} from "../model/requestedReview.js";
+import {Formatter} from "./formatter.js";
 
 export class ReviewRequestFormatter implements Formatter {
   reviewRequest: RequestedReview;

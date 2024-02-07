@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import {ContextStatus} from "../model/contextStatus";
-import {Formatter} from "./formatter";
+import {ContextStatus} from "../model/contextStatus.js";
+import {Formatter} from "./formatter.js";
 
 export class ContextStatusFormatter implements Formatter {
   status: ContextStatus;

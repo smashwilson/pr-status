@@ -2,7 +2,7 @@ import {
   CheckConclusionState,
   CheckRunStatus,
   CheckStatusState,
-} from "../../../lib/model/checkRunStatus";
+} from "../../../lib/model/checkRunStatus.js";
 
 export function buildCheckRunStatus(
   opts: {

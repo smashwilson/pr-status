@@ -1,6 +1,6 @@
-import {RequestedReview} from "../../../lib/model/requestedReview";
-import {Review, ReviewState} from "../../../lib/model/review";
-import {buildReview} from "./reviewBuilder";
+import {RequestedReview} from "../../../lib/model/requestedReview.js";
+import {Review, ReviewState} from "../../../lib/model/review.js";
+import {buildReview} from "./reviewBuilder.js";
 
 export function buildRequestedReview(
   opts: {

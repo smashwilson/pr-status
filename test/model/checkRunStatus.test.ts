@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import {buildCheckRunStatus} from "../helpers/builders/checkRunStatusBuilder";
+import {buildCheckRunStatus} from "../helpers/builders/checkRunStatusBuilder.js";
 
 describe("CheckRunStatus", function () {
   it("determines if the check run is pending based on state", function () {

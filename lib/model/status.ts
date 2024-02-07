@@ -1,4 +1,4 @@
-import {Formatter} from "../formatter/formatter";
+import {Formatter} from "../formatter/formatter.js";
 
 export abstract class Status {
   url: string;

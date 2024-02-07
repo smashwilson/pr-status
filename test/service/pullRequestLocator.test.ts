@@ -1,23 +1,23 @@
 import {assert} from "chai";
-import {CheckRunStatus} from "../../lib/model/checkRunStatus";
-import {ContextStatus} from "../../lib/model/contextStatus";
-import {PullRequestLocator} from "../../lib/service/pullRequestLocator";
+import {CheckRunStatus} from "../../lib/model/checkRunStatus.js";
+import {ContextStatus} from "../../lib/model/contextStatus.js";
+import {PullRequestLocator} from "../../lib/service/pullRequestLocator.js";
 import {
   pullRequestSearchQuery,
   PullRequestSearchResponse,
-} from "../../lib/service/queries/pullRequestSearch";
-import {rollupPaginationQuery} from "../../lib/service/queries/rollupPagination";
+} from "../../lib/service/queries/pullRequestSearch.js";
+import {rollupPaginationQuery} from "../../lib/service/queries/rollupPagination.js";
 import {
   CheckRunResponse,
   StatusContextResponse,
-} from "../../lib/service/queries/statusCheckRollupFragment";
-import {PullRequestSearchBuilder} from "../helpers/builders/responses/pullRequestSearchBuilders";
-import {RollupPaginationBuilder} from "../helpers/builders/responses/rollupPaginationBuilders";
+} from "../../lib/service/queries/statusCheckRollupFragment.js";
+import {PullRequestSearchBuilder} from "../helpers/builders/responses/pullRequestSearchBuilders.js";
+import {RollupPaginationBuilder} from "../helpers/builders/responses/rollupPaginationBuilders.js";
 import {
   CheckRunBuilder,
   StatusContextBuilder,
-} from "../helpers/builders/responses/statusCheckRollupFragmentBuilders";
-import {CannedGraphQL} from "../helpers/cannedGraphQL";
+} from "../helpers/builders/responses/statusCheckRollupFragmentBuilders.js";
+import {CannedGraphQL} from "../helpers/cannedGraphQL.js";
 
 describe("PullRequestLocator", function () {
   let graphQL: CannedGraphQL;

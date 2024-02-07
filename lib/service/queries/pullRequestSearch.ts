@@ -1,8 +1,8 @@
-import {ReviewState} from "../../model/review";
+import {ReviewState} from "../../model/review.js";
 import {
   StatusCheckRollupFragment,
   statusCheckRollupFragment,
-} from "./statusCheckRollupFragment";
+} from "./statusCheckRollupFragment.js";
 
 export const pullRequestSearchQuery = `
 query($search: String!, $rollupCursor: String) {
@@ -45,7 +45,7 @@ query($search: String!, $rollupCursor: String) {
             }
           }
         }
-  
+
         # Build statuses
         commits(last: 1) {
           nodes {
@@ -56,7 +56,7 @@ query($search: String!, $rollupCursor: String) {
             }
           }
         }
-  
+
       }
     }
   }

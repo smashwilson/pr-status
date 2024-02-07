@@ -1,6 +1,6 @@
-import {Formatter} from "../formatter/formatter";
-import {ReviewRequestFormatter} from "../formatter/reviewRequestFormatter";
-import {Review, ReviewState} from "./review";
+import {Formatter} from "../formatter/formatter.js";
+import {ReviewRequestFormatter} from "../formatter/reviewRequestFormatter.js";
+import {Review, ReviewState} from "./review.js";
 
 const POSITIVE_STATES = new Set<ReviewState>(["APPROVED", "DISMISSED"]);
 

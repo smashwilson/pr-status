@@ -1,6 +1,6 @@
 import {assert} from "chai";
 import chalk from "chalk";
-import {buildContextStatus} from "../helpers/builders/contextStatusBuilder";
+import {buildContextStatus} from "../helpers/builders/contextStatusBuilder.js";
 
 describe("ContextStatusFormatter", function () {
   it("renders a pending context status", function () {

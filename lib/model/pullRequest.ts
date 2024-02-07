@@ -1,7 +1,7 @@
-import {Formatter} from "../formatter/formatter";
-import {PullRequestFormatter} from "../formatter/pullRequestFormatter";
-import {RequestedReview} from "./requestedReview";
-import type {Status} from "./status";
+import {Formatter} from "../formatter/formatter.js";
+import {PullRequestFormatter} from "../formatter/pullRequestFormatter.js";
+import {RequestedReview} from "./requestedReview.js";
+import type {Status} from "./status.js";
 
 export class PullRequest {
   id: string;

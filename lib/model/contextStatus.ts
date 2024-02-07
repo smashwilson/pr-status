@@ -1,6 +1,6 @@
-import {ContextStatusFormatter} from "../formatter/contextStatusFormatter";
-import {Formatter} from "../formatter/formatter";
-import {Status} from "./status";
+import {ContextStatusFormatter} from "../formatter/contextStatusFormatter.js";
+import {Formatter} from "../formatter/formatter.js";
+import {Status} from "./status.js";
 
 export type StatusState =
   | "EXPECTED"

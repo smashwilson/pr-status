@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import {buildContextStatus} from "../helpers/builders/contextStatusBuilder";
+import {buildContextStatus} from "../helpers/builders/contextStatusBuilder.js";
 
 describe("ContextStatus", function () {
   it("identifies a pending status", function () {

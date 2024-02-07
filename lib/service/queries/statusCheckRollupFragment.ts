@@ -1,8 +1,8 @@
 import {
   CheckConclusionState,
   CheckStatusState,
-} from "../../model/checkRunStatus";
-import {StatusState} from "../../model/contextStatus";
+} from "../../model/checkRunStatus.js";
+import {StatusState} from "../../model/contextStatus.js";
 
 export const statusCheckRollupFragment = `
 fragment statusCheckRollup on StatusCheckRollup {

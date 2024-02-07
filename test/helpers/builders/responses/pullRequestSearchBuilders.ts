@@ -1,6 +1,6 @@
 import {createBuilderClass} from "nested-builder";
-import {PullRequestSearchResponse} from "../../../../lib/service/queries/pullRequestSearch";
-import {StatusCheckRollupFragmentBuilder} from "./statusCheckRollupFragmentBuilders";
+import {PullRequestSearchResponse} from "../../../../lib/service/queries/pullRequestSearch.js";
+import {StatusCheckRollupFragmentBuilder} from "./statusCheckRollupFragmentBuilders.js";
 
 type PullRequestNode = PullRequestSearchResponse["search"]["nodes"][number];
 type BaseRepositoryNode = PullRequestNode["baseRepository"];
