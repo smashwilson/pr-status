@@ -1,4 +1,4 @@
-import {OutputWriter} from "../../lib/invocation";
+import {OutputWriter} from "../../lib/invocation.js";
 
 export class StringBuffer implements OutputWriter {
   contents: string;

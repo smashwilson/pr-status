@@ -1,6 +1,6 @@
 import {assert} from "chai";
-import {buildRequestedReview} from "../helpers/builders/requestedReviewBuilder";
-import {buildReview} from "../helpers/builders/reviewBuilder";
+import {buildRequestedReview} from "../helpers/builders/requestedReviewBuilder.js";
+import {buildReview} from "../helpers/builders/reviewBuilder.js";
 
 describe("ReviewRequestFormatter", function () {
   it("renders a review request with no reviews", function () {

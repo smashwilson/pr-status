@@ -1,4 +1,4 @@
-import {ContextStatus, StatusState} from "../../../lib/model/contextStatus";
+import {ContextStatus, StatusState} from "../../../lib/model/contextStatus.js";
 
 export function buildContextStatus(
   opts: {url?: string; context?: string; state?: StatusState} = {}

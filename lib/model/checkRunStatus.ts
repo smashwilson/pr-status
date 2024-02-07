@@ -1,6 +1,6 @@
-import {CheckRunStatusFormatter} from "../formatter/checkRunStatusFormatter";
-import {Formatter} from "../formatter/formatter";
-import {Status} from "./status";
+import {CheckRunStatusFormatter} from "../formatter/checkRunStatusFormatter.js";
+import {Formatter} from "../formatter/formatter.js";
+import {Status} from "./status.js";
 
 export type CheckStatusState =
   | "QUEUED"

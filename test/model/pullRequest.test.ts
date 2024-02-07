@@ -1,8 +1,8 @@
 import {assert} from "chai";
-import {buildCheckRunStatus} from "../helpers/builders/checkRunStatusBuilder";
-import {buildContextStatus} from "../helpers/builders/contextStatusBuilder";
-import {buildPullRequest} from "../helpers/builders/pullRequestBuilder";
-import {buildRequestedReview} from "../helpers/builders/requestedReviewBuilder";
+import {buildCheckRunStatus} from "../helpers/builders/checkRunStatusBuilder.js";
+import {buildContextStatus} from "../helpers/builders/contextStatusBuilder.js";
+import {buildPullRequest} from "../helpers/builders/pullRequestBuilder.js";
+import {buildRequestedReview} from "../helpers/builders/requestedReviewBuilder.js";
 
 describe("PullRequest", function () {
   it("counts successful or neutral and total builds", function () {

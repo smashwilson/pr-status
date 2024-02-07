@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import {PullRequest} from "../model/pullRequest";
-import {Formatter} from "./formatter";
+import {PullRequest} from "../model/pullRequest.js";
+import {Formatter} from "./formatter.js";
 
 export class PullRequestFormatter implements Formatter {
   pullRequest: PullRequest;

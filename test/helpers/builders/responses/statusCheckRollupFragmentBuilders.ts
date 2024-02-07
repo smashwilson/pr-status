@@ -3,7 +3,7 @@ import {
   CheckRunResponse,
   StatusCheckRollupFragment,
   StatusContextResponse,
-} from "../../../../lib/service/queries/statusCheckRollupFragment";
+} from "../../../../lib/service/queries/statusCheckRollupFragment.js";
 
 export const CheckRunBuilder = createBuilderClass<CheckRunResponse>()({
   __typename: {default: "CheckRun"},

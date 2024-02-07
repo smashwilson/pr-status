@@ -1,8 +1,9 @@
 {
   "name": "@smashwilson/pr-status",
+  "type": "module",
   "version": "1.0.0",
   "description": "Dashboard reporting build and review status of your open pull requests",
-  "main": "build/index.js",
+  "exports": "./build/index.js",
   "bin": {
     "pr-status": "build/cli.js"
   },
@@ -26,21 +27,21 @@
   },
   "homepage": "https://github.com/smashwilson/pr-status#readme",
   "devDependencies": {
-    "@tsconfig/node16": "^16.1.0",
+    "@tsconfig/node20": "^20.1.2",
     "@types/args": "^5.0.0",
-    "@types/chai": "^4.2.1",
-    "@types/mocha": "^10.0.0",
-    "@types/node-fetch": "^2.5.12",
-    "chai": "^4.2.0",
-    "mocha": "^10.0.0",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@types/node-fetch": "^2.6.11",
+    "chai": "^5.0.3",
+    "mocha": "^10.2.0",
     "nested-builder": "^1.1.1",
     "prettier": "^3.0.1",
-    "ts-node": "^10.4.0",
-    "typescript": "^5.0.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "args": "^5.0.1",
-    "chalk": "^4.1.2",
-    "node-fetch": "^2.6.6"
+    "chalk": "^5.3.0",
+    "node-fetch": "^3.3.2"
   }
 }

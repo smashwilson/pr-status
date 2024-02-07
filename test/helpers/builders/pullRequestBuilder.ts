@@ -1,6 +1,6 @@
-import {PullRequest} from "../../../lib/model/pullRequest";
-import {RequestedReview} from "../../../lib/model/requestedReview";
-import {Status} from "../../../lib/model/status";
+import {PullRequest} from "../../../lib/model/pullRequest.js";
+import {RequestedReview} from "../../../lib/model/requestedReview.js";
+import {Status} from "../../../lib/model/status.js";
 
 export function buildPullRequest(
   opts: {

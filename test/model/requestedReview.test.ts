@@ -1,7 +1,7 @@
 import {assert} from "chai";
-import {ReviewState} from "../../lib/model/review";
-import {buildRequestedReview} from "../helpers/builders/requestedReviewBuilder";
-import {buildReview} from "../helpers/builders/reviewBuilder";
+import {ReviewState} from "../../lib/model/review.js";
+import {buildRequestedReview} from "../helpers/builders/requestedReviewBuilder.js";
+import {buildReview} from "../helpers/builders/reviewBuilder.js";
 
 describe("RequestedReview", function () {
   describe("summarizedState", function () {

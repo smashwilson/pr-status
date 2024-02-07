@@ -1,6 +1,6 @@
 import {assert} from "chai";
 import chalk from "chalk";
-import {buildCheckRunStatus} from "../helpers/builders/checkRunStatusBuilder";
+import {buildCheckRunStatus} from "../helpers/builders/checkRunStatusBuilder.js";
 
 describe("CheckRunStatusFormatter", function () {
   it("renders a pending run", function () {

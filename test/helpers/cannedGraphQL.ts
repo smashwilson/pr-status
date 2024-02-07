@@ -1,4 +1,4 @@
-import {GraphQL, Variables} from "../../lib/graphQL";
+import {GraphQL, Variables} from "../../lib/graphQL.js";
 
 class ExpectedQuery<R> {
   query: string;

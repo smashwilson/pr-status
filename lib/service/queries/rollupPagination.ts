@@ -1,7 +1,7 @@
 import {
   StatusCheckRollupFragment,
   statusCheckRollupFragment,
-} from "./statusCheckRollupFragment";
+} from "./statusCheckRollupFragment.js";
 
 export const rollupPaginationQuery = `
 query($rollupId: ID!, $rollupCursor: String) {

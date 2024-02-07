@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import {CheckRunStatus} from "../model/checkRunStatus";
-import {Formatter} from "./formatter";
+import {CheckRunStatus} from "../model/checkRunStatus.js";
+import {Formatter} from "./formatter.js";
 
 export class CheckRunStatusFormatter implements Formatter {
   status: CheckRunStatus;

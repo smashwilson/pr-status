@@ -1,23 +1,23 @@
-import {CheckRunStatus} from "../model/checkRunStatus";
-import {ContextStatus} from "../model/contextStatus";
-import type {GraphQL} from "../graphQL";
-import {PullRequest} from "../model/pullRequest";
-import {RequestedReview} from "../model/requestedReview";
-import {Review} from "../model/review";
-import {Status} from "../model/status";
+import {CheckRunStatus} from "../model/checkRunStatus.js";
+import {ContextStatus} from "../model/contextStatus.js";
+import type {GraphQL} from "../graphQL.js";
+import {PullRequest} from "../model/pullRequest.js";
+import {RequestedReview} from "../model/requestedReview.js";
+import {Review} from "../model/review.js";
+import {Status} from "../model/status.js";
 import {
   pullRequestSearchQuery,
   PullRequestSearchResponse,
-} from "./queries/pullRequestSearch";
+} from "./queries/pullRequestSearch.js";
 import {
   rollupPaginationQuery,
   RollupPaginationResponse,
-} from "./queries/rollupPagination";
+} from "./queries/rollupPagination.js";
 import {
   isCheckRun,
   isStatusContext,
   StatusCheckRollupFragment,
-} from "./queries/statusCheckRollupFragment";
+} from "./queries/statusCheckRollupFragment.js";
 
 interface RollupPageRequest {
   rollupId: string;

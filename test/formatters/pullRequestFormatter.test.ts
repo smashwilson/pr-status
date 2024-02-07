@@ -1,10 +1,10 @@
 import {assert} from "chai";
 import chalk from "chalk";
-import {buildCheckRunStatus} from "../helpers/builders/checkRunStatusBuilder";
-import {buildContextStatus} from "../helpers/builders/contextStatusBuilder";
-import {buildPullRequest} from "../helpers/builders/pullRequestBuilder";
-import {buildRequestedReview} from "../helpers/builders/requestedReviewBuilder";
-import {buildReview} from "../helpers/builders/reviewBuilder";
+import {buildCheckRunStatus} from "../helpers/builders/checkRunStatusBuilder.js";
+import {buildContextStatus} from "../helpers/builders/contextStatusBuilder.js";
+import {buildPullRequest} from "../helpers/builders/pullRequestBuilder.js";
+import {buildRequestedReview} from "../helpers/builders/requestedReviewBuilder.js";
+import {buildReview} from "../helpers/builders/reviewBuilder.js";
 
 describe("PullRequestFormatter", function () {
   it("renders a draft pull request with no statuses or reviews", function () {

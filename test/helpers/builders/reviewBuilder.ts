@@ -1,4 +1,4 @@
-import {Review, ReviewState} from "../../../lib/model/review";
+import {Review, ReviewState} from "../../../lib/model/review.js";
 
 export function buildReview(
   opts: {reviewer?: string; state?: ReviewState} = {}

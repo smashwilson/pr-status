@@ -1,6 +1,6 @@
 import {createBuilderClass} from "nested-builder";
-import {RollupPaginationResponse} from "../../../../lib/service/queries/rollupPagination";
-import {StatusCheckRollupFragmentBuilder} from "./statusCheckRollupFragmentBuilders";
+import {RollupPaginationResponse} from "../../../../lib/service/queries/rollupPagination.js";
+import {StatusCheckRollupFragmentBuilder} from "./statusCheckRollupFragmentBuilders.js";
 
 export const RollupPaginationBuilder =
   createBuilderClass<RollupPaginationResponse>()({

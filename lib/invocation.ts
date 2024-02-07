@@ -1,8 +1,8 @@
 import args from "args";
 import chalk from "chalk";
-import {GraphQL} from "./graphQL";
-import {PullRequest} from "./model/pullRequest";
-import {PullRequestLocator} from "./service/pullRequestLocator";
+import {GraphQL} from "./graphQL.js";
+import {PullRequest} from "./model/pullRequest.js";
+import {PullRequestLocator} from "./service/pullRequestLocator.js";
 
 export interface TerminationError extends Error {
   exitCode: number;
