@@ -18,6 +18,8 @@ import {
   StatusContextBuilder,
 } from "../helpers/builders/responses/statusCheckRollupFragmentBuilders.js";
 import {CannedGraphQL} from "../helpers/cannedGraphQL.js";
+import {pullRequestByNumberQuery} from "../../lib/service/queries/pullRequestByNumber.js";
+import {PullRequestByNumberBuilder} from "../helpers/builders/responses/pullRequestByNumberBuilders.js";
 
 describe("PullRequestLocator", function () {
   let graphQL: CannedGraphQL;
@@ -57,6 +59,30 @@ describe("PullRequestLocator", function () {
 
       const pullRequests = await locator.inRepositories(["aaa/bbb"]);
       assert.isEmpty(pullRequests);
+    });
+  });
+
+  describe("number query", function () {
+    it("queries for a specific pull request", async function () {
+      const response = new PullRequestByNumberBuilder().repository((repoB) => {
+        repoB.pullRequest((prB) => {
+          prB.id("PR0");
+        });
+      }).build();
+
+      graphQL.expect(
+        pullRequestByNumberQuery,
+        {
+          owner: "owner",
+          name: "name",
+          number: 123,
+        },
+        response
+      );
+
+      const pr = await locator.byNumber("owner", "name", 123);
+      assert.isNotNull(pr);
+      assert.strictEqual(pr!.id, "PR0");
     });
   });
 
