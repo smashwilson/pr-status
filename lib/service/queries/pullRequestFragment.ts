@@ -56,7 +56,7 @@ fragment pullRequestFragment on PullRequest {
 }
 
 ${statusCheckRollupFragment}
-`
+`;
 
 export interface PullRequestFragment {
   id: string;

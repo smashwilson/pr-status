@@ -1,7 +1,7 @@
 import {
   PullRequestFragment,
   pullRequestFragment,
-} from "./pullRequestFragment.js"
+} from "./pullRequestFragment.js";
 
 export const pullRequestSearchQuery = `
 query($search: String!, $rollupCursor: String) {
@@ -17,6 +17,6 @@ ${pullRequestFragment}
 
 export interface PullRequestSearchResponse {
   search: {
-    nodes: PullRequestFragment[],
+    nodes: PullRequestFragment[];
   };
 }
