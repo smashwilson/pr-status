@@ -18,13 +18,14 @@ You must provide a valid [GitHub API token](https://github.com/settings/tokens),
 - An environment variable called `GH_GH_PAT`;
 - Or by passing it as an argument to the `-t` or `--token` command-line arguments.
 
-Pull request results may optionally be scoped by repository. Specify `-r` or `--repo` several times to only include pull requests within the named repositories.
-If omitted, results from _all_ repositories will be included, unless a `GITHUB_REPOSITORY` environment variable is present and non-empty (such as within a Codespace), in which case its value will be used.
+Queried pull requests may optionally be scoped by repository or specified individually. Specify `-r` or `--repo` several times to only include pull requests within the named repositories. Use `-p` or `--pull-request` to indicate pull requests individually, using either the full pull request URL for your browser (`https://github.com/smashwilson/pr-status/pull/123`; any subpage will work) or a short reference string (`smashwilson/pr-status#123`).
+
+If omitted and a `GITHUB_REPOSITORY` environment variable is present and non-empty (such as within a Codespace), its value will be used.
 
 Otherwise, here's the usage:
 
 ```
-Usage: pr status [options] [command]
+Usage: pr-status [options] [command]
 
 Commands:
   help     Display help
@@ -32,6 +33,7 @@ Commands:
 
 Options:
   -h, --help         Output usage information
+  -p, --pull-request <list>  Limit results to individually identified pull requests (defaults to [])
   -r, --repo <list>  Limit results to PRs in this repo (defaults to [])
   -t, --token        GitHub API token used for queries (defaults to "")
   -v, --verbose      Include successful builds in output (disabled by default)
