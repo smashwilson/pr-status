@@ -45,6 +45,7 @@ describe("Invocation", function () {
         GITHUB_TOKEN: "RIGHTTOKEN",
       });
       assert.deepEqual(["smashwilson/pr-status"], i.repos);
+      assert.isEmpty(i.pullRequests);
     });
 
     it("accepts multiple repositories", function () {
@@ -61,14 +62,61 @@ describe("Invocation", function () {
         "smashwilson/pr-status",
         "smashwilson/nested-builder",
       ]);
+      assert.isEmpty(i.pullRequests);
     });
 
-    it("uses GITHUB_REPOSITORY when no repos are specified", function () {
+    it("accepts a single pull request by URL", function () {
+      const i = Invocation.configuredFrom(
+        args(
+          "--pull-request",
+          "https://github.com/smashwilson/pr-status/pull/122"
+        ),
+        {GITHUB_TOKEN: "RIGHTTOKEN"}
+      );
+      assert.isEmpty(i.repos);
+      assert.deepEqual(i.pullRequests, [
+        {owner: "smashwilson", name: "pr-status", number: 122},
+      ]);
+    });
+
+    it("accepts a single pull request by short reference form", function () {
+      const i = Invocation.configuredFrom(
+        args("--pull-request", "the-repo/name#456"),
+        {GITHUB_TOKEN: "RIGHTTOKEN"}
+      );
+      assert.isEmpty(i.repos);
+      assert.deepEqual(i.pullRequests, [
+        {owner: "the-repo", name: "name", number: 456},
+      ]);
+    });
+
+    it("accepts multiple pull requests", function () {
+      const i = Invocation.configuredFrom(
+        args(
+          "--pull-request",
+          "found/by-short-string#100",
+          "--pull-request",
+          "https://github.com/found/by-url/pull/200",
+          "--pull-request",
+          "https://github.com/found/by-long-url/pull/300/checks"
+        ),
+        {GITHUB_TOKEN: "RIGHTTOKEN"}
+      );
+      assert.isEmpty(i.repos);
+      assert.deepEqual(i.pullRequests, [
+        {owner: "found", name: "by-short-string", number: 100},
+        {owner: "found", name: "by-url", number: 200},
+        {owner: "found", name: "by-long-url", number: 300},
+      ]);
+    });
+
+    it("uses GITHUB_REPOSITORY when no repos or pull requests are specified", function () {
       const i = Invocation.configuredFrom(args(), {
         GITHUB_REPOSITORY: "smashwilson/pr-status",
         GITHUB_TOKEN: "RIGHTTOKEN",
       });
       assert.deepEqual(["smashwilson/pr-status"], i.repos);
+      assert.isEmpty(i.pullRequests);
     });
 
     it("overrides GITHUB_REPOSITORY with any -r flags", function () {
@@ -77,6 +125,21 @@ describe("Invocation", function () {
         GITHUB_TOKEN: "RIGHTTOKEN",
       });
       assert.deepEqual(["wat/huh"], i.repos);
+      assert.isEmpty(i.pullRequests);
+    });
+
+    it("overrides GITHUB_REPOSITORY with a -p flag", function () {
+      const i = Invocation.configuredFrom(
+        args("--pull-request", "wat/huh#123"),
+        {
+          GITHUB_REPOSITORY: "smashwilson/pr-status",
+          GITHUB_TOKEN: "RIGHTTOKEN",
+        }
+      );
+      assert.isEmpty(i.repos);
+      assert.deepEqual(i.pullRequests, [
+        {owner: "wat", name: "huh", number: 123},
+      ]);
     });
   });
 
@@ -107,6 +170,7 @@ describe("Invocation", function () {
         output,
         "TOKEN",
         ["aaa/repo0", "aaa/repo1"],
+        [],
         false,
         false
       );
