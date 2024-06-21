@@ -64,11 +64,13 @@ describe("PullRequestLocator", function () {
 
   describe("number query", function () {
     it("queries for a specific pull request", async function () {
-      const response = new PullRequestByNumberBuilder().repository((repoB) => {
-        repoB.pullRequest((prB) => {
-          prB.id("PR0");
-        });
-      }).build();
+      const response = new PullRequestByNumberBuilder()
+        .repository((repoB) => {
+          repoB.pullRequest((prB) => {
+            prB.id("PR0");
+          });
+        })
+        .build();
 
       graphQL.expect(
         pullRequestByNumberQuery,

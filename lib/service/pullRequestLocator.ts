@@ -18,7 +18,10 @@ import {
   isStatusContext,
   StatusCheckRollupFragment,
 } from "./queries/statusCheckRollupFragment.js";
-import { pullRequestByNumberQuery, PullRequestByNumberResponse } from "./queries/pullRequestByNumber.js";
+import {
+  pullRequestByNumberQuery,
+  PullRequestByNumberResponse,
+} from "./queries/pullRequestByNumber.js";
 
 interface RollupPageRequest {
   rollupId: string;
@@ -80,15 +83,20 @@ export class PullRequestLocator {
     return pullRequests;
   }
 
-  async byNumber(owner: string, name: string, number: number): Promise<PullRequest | null> {
-    const pullRequestData = await this.graphql.query<PullRequestByNumberResponse>(
-      pullRequestByNumberQuery,
-      {
-        owner: owner,
-        name: name,
-        number: number,
-      }
-    );
+  async byNumber(
+    owner: string,
+    name: string,
+    number: number
+  ): Promise<PullRequest | null> {
+    const pullRequestData =
+      await this.graphql.query<PullRequestByNumberResponse>(
+        pullRequestByNumberQuery,
+        {
+          owner: owner,
+          name: name,
+          number: number,
+        }
+      );
 
     const node = pullRequestData.repository?.pullRequest;
     if (!node) {
@@ -107,15 +115,19 @@ export class PullRequestLocator {
       node.isDraft,
       this.statuses(rollup),
       this.requestedReviews(node)
-    )
+    );
 
     const rollupPageInfo = rollup?.contexts.pageInfo;
     if (rollup && rollupPageInfo?.hasNextPage) {
-      await this.collectRollupPages(new Set([{
-        rollupId: rollup.id,
-        rollupCursor: rollupPageInfo.endCursor,
-        pullRequest,
-      }]));
+      await this.collectRollupPages(
+        new Set([
+          {
+            rollupId: rollup.id,
+            rollupCursor: rollupPageInfo.endCursor,
+            pullRequest,
+          },
+        ])
+      );
     }
 
     return pullRequest;
