@@ -95,6 +95,7 @@ export class PullRequestLocator {
           owner: owner,
           name: name,
           number: number,
+          rollupCursor: null,
         }
       );
 

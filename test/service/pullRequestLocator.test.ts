@@ -78,6 +78,7 @@ describe("PullRequestLocator", function () {
           owner: "owner",
           name: "name",
           number: 123,
+          rollupCursor: null,
         },
         response
       );
