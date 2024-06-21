@@ -157,7 +157,7 @@ export class Invocation {
 
   async poll(locator: PullRequestLocator): Promise<void> {
     while (true) {
-      const pullRequests = await locator.inRepositories(this.repos);
+      const pullRequests = await this.queryPullRequests(locator);
       const ts = new Date();
 
       this.clear();
@@ -171,8 +171,32 @@ export class Invocation {
   }
 
   async report(locator: PullRequestLocator): Promise<void> {
-    const pullRequests = await locator.inRepositories(this.repos);
+    const pullRequests = await this.queryPullRequests(locator);
     this.writePullRequests(pullRequests);
+  }
+
+  async queryPullRequests(locator: PullRequestLocator): Promise<PullRequest[]> {
+    const promises: Promise<PullRequest[]>[] = [];
+
+    if (this.repos.length > 0) {
+      promises.push(locator.inRepositories(this.repos));
+    }
+
+    for (const {owner, name, number} of this.pullRequests) {
+      const byNumberFn = async () => {
+        const pullRequest = await locator.byNumber(owner, name, number);
+        if (pullRequest) {
+          return [pullRequest];
+        } else {
+          return [];
+        }
+      };
+
+      promises.push(byNumberFn());
+    }
+
+    const results = await Promise.all(promises);
+    return results.flat(1);
   }
 
   private write(text: string): this {

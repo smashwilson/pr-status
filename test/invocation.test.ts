@@ -3,8 +3,10 @@ import {fileURLToPath} from "url";
 import {Invocation} from "../lib/invocation.js";
 import {pullRequestSearchQuery} from "../lib/service/queries/pullRequestSearch.js";
 import {PullRequestSearchBuilder} from "./helpers/builders/responses/pullRequestSearchBuilders.js";
+import {PullRequestByNumberBuilder} from "./helpers/builders/responses/pullRequestByNumberBuilders.js";
 import {CannedGraphQL} from "./helpers/cannedGraphQL.js";
 import {StringBuffer} from "./helpers/stringBuffer.js";
+import {pullRequestByNumberQuery} from "../lib/service/queries/pullRequestByNumber.js";
 
 describe("Invocation", function () {
   function args(...args: string[]) {
@@ -156,6 +158,12 @@ describe("Invocation", function () {
         })
         .build();
 
+      const byNumberResponse = new PullRequestByNumberBuilder()
+        .repository((repoB) => {
+          repoB.pullRequest((prB) => prB.title("Three"));
+        })
+        .build();
+
       graphQL.expect(
         pullRequestSearchQuery,
         {
@@ -165,12 +173,22 @@ describe("Invocation", function () {
         searchResponse
       );
 
+      graphQL.expect(
+        pullRequestByNumberQuery,
+        {
+          owner: "the-owner",
+          name: "a-name",
+          number: 123,
+        },
+        byNumberResponse
+      );
+
       const i = new Invocation(
         graphQL,
         output,
         "TOKEN",
         ["aaa/repo0", "aaa/repo1"],
-        [],
+        [{owner: "the-owner", name: "a-name", number: 123}],
         false,
         false
       );
@@ -179,6 +197,7 @@ describe("Invocation", function () {
       assert.match(output.contents, /Zero/);
       assert.match(output.contents, /One/);
       assert.match(output.contents, /Two/);
+      assert.match(output.contents, /Three/);
     });
   });
 });
