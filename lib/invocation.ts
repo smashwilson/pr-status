@@ -116,10 +116,8 @@ export class Invocation {
     args: string[]
   ): PullRequestDesignator[] {
     return args.flatMap((arg) => {
-      console.log(`testing: ${arg}`);
       const pullUrlMatch = PULL_URL_RX.exec(arg);
       if (pullUrlMatch) {
-        console.log("pullUrlMatch", pullUrlMatch);
         return [
           {
             owner: pullUrlMatch[1],
@@ -131,7 +129,6 @@ export class Invocation {
 
       const pullShortMatch = PULL_SHORT_RX.exec(arg);
       if (pullShortMatch) {
-        console.log("pullShortMatch", pullShortMatch);
         return [
           {
             owner: pullShortMatch[1],
