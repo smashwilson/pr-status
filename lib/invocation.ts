@@ -12,9 +12,20 @@ export interface OutputWriter {
   write(str: string): void;
 }
 
+interface PullRequestDesignator {
+  owner: string;
+  name: string;
+  number: number;
+}
+
+const PULL_URL_RX = /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/;
+
+const PULL_SHORT_RX = /^([^/]+)\/([^#]+)#(\d+)$/;
+
 export class Invocation {
   token: string;
   repos: string[];
+  pullRequests: PullRequestDesignator[];
   wait: boolean;
   verbose: boolean;
   graphql: GraphQL;
@@ -25,11 +36,13 @@ export class Invocation {
     output: OutputWriter,
     token: string,
     repos: string[] = [],
+    pullRequests: PullRequestDesignator[] = [],
     wait: false,
     verbose: false
   ) {
     this.token = token;
     this.repos = repos;
+    this.pullRequests = pullRequests;
     this.wait = wait;
     this.verbose = verbose;
     this.graphql = graphql;
@@ -40,6 +53,11 @@ export class Invocation {
     args
       .option(["t", "token"], "GitHub API token used for queries", "")
       .option(["r", "repo"], "Limit results to PRs in this repo", [])
+      .option(
+        ["p", "pull-request"],
+        "Limit results to individually identified pull requests",
+        []
+      )
       .option(["w", "wait"], "Poll for updates", false)
       .option(["v", "verbose"], "Include successful builds in output", false);
     const flags = args.parse(argv);
@@ -56,9 +74,25 @@ export class Invocation {
       throw error;
     }
 
+    const pullRequests: PullRequestDesignator[] =
+      this.parsePullRequestDesignatorsFrom(flags.p);
+    if (pullRequests.length !== flags.p.length) {
+      console.error("Pull requests may be specified by URL or reference text:");
+      console.error("- https://github.com/repo/name/pull/1234");
+      console.error("- repo/name#1234");
+
+      const error = new Error(
+        "Unable to parse pull request"
+      ) as TerminationError;
+      error.exitCode = 1;
+      throw error;
+    }
+
     const repos: string[] = flags.repo;
+
     if (
       repos.length === 0 &&
+      pullRequests.length === 0 &&
       env.GITHUB_REPOSITORY &&
       env.GITHUB_REPOSITORY.length > 0
     ) {
@@ -72,9 +106,40 @@ export class Invocation {
       process.stdout,
       token,
       repos,
+      pullRequests,
       flags.wait,
       flags.verbose
     );
+  }
+
+  private static parsePullRequestDesignatorsFrom(
+    args: string[]
+  ): PullRequestDesignator[] {
+    return args.flatMap((arg) => {
+      const pullUrlMatch = PULL_URL_RX.exec(arg);
+      if (pullUrlMatch) {
+        return [
+          {
+            owner: pullUrlMatch[1],
+            name: pullUrlMatch[2],
+            number: parseInt(pullUrlMatch[3], 10),
+          },
+        ];
+      }
+
+      const pullShortMatch = PULL_SHORT_RX.exec(arg);
+      if (pullShortMatch) {
+        return [
+          {
+            owner: pullShortMatch[1],
+            name: pullShortMatch[2],
+            number: parseInt(pullShortMatch[3], 10),
+          },
+        ];
+      }
+
+      return [];
+    });
   }
 
   execute(): Promise<void> {
@@ -89,7 +154,7 @@ export class Invocation {
 
   async poll(locator: PullRequestLocator): Promise<void> {
     while (true) {
-      const pullRequests = await locator.inRepositories(this.repos);
+      const pullRequests = await this.queryPullRequests(locator);
       const ts = new Date();
 
       this.clear();
@@ -103,8 +168,32 @@ export class Invocation {
   }
 
   async report(locator: PullRequestLocator): Promise<void> {
-    const pullRequests = await locator.inRepositories(this.repos);
+    const pullRequests = await this.queryPullRequests(locator);
     this.writePullRequests(pullRequests);
+  }
+
+  async queryPullRequests(locator: PullRequestLocator): Promise<PullRequest[]> {
+    const promises: Promise<PullRequest[]>[] = [];
+
+    if (this.repos.length > 0) {
+      promises.push(locator.inRepositories(this.repos));
+    }
+
+    for (const {owner, name, number} of this.pullRequests) {
+      const byNumberFn = async () => {
+        const pullRequest = await locator.byNumber(owner, name, number);
+        if (pullRequest) {
+          return [pullRequest];
+        } else {
+          return [];
+        }
+      };
+
+      promises.push(byNumberFn());
+    }
+
+    const results = await Promise.all(promises);
+    return results.flat(1);
   }
 
   private write(text: string): this {

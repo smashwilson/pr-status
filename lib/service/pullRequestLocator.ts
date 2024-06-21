@@ -18,6 +18,10 @@ import {
   isStatusContext,
   StatusCheckRollupFragment,
 } from "./queries/statusCheckRollupFragment.js";
+import {
+  pullRequestByNumberQuery,
+  PullRequestByNumberResponse,
+} from "./queries/pullRequestByNumber.js";
 
 interface RollupPageRequest {
   rollupId: string;
@@ -77,6 +81,57 @@ export class PullRequestLocator {
     await this.collectRollupPages(rollupPages);
 
     return pullRequests;
+  }
+
+  async byNumber(
+    owner: string,
+    name: string,
+    number: number
+  ): Promise<PullRequest | null> {
+    const pullRequestData =
+      await this.graphql.query<PullRequestByNumberResponse>(
+        pullRequestByNumberQuery,
+        {
+          owner: owner,
+          name: name,
+          number: number,
+          rollupCursor: null,
+        }
+      );
+
+    const node = pullRequestData.repository?.pullRequest;
+    if (!node) {
+      return null;
+    }
+
+    const rollup = node.commits.nodes[0].commit.statusCheckRollup;
+
+    const pullRequest = new PullRequest(
+      node.id,
+      node.baseRepository.owner.login,
+      node.baseRepository.name,
+      node.number,
+      node.title,
+      node.url,
+      node.isDraft,
+      this.statuses(rollup),
+      this.requestedReviews(node)
+    );
+
+    const rollupPageInfo = rollup?.contexts.pageInfo;
+    if (rollup && rollupPageInfo?.hasNextPage) {
+      await this.collectRollupPages(
+        new Set([
+          {
+            rollupId: rollup.id,
+            rollupCursor: rollupPageInfo.endCursor,
+            pullRequest,
+          },
+        ])
+      );
+    }
+
+    return pullRequest;
   }
 
   private requestedReviews(

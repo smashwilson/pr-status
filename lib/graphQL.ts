@@ -2,7 +2,7 @@ import type {Response} from "node-fetch";
 import fetch from "node-fetch";
 
 export interface Variables {
-  [name: string]: string | string[] | null;
+  [name: string]: string | string[] | number | null;
 }
 
 export interface ServerError extends Error {
