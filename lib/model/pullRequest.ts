@@ -82,7 +82,7 @@ export class PullRequest {
     return this.requestedReviews.length;
   }
 
-  formatter(verbose: boolean): Formatter {
-    return new PullRequestFormatter(this, verbose);
+  formatter(verbose: boolean, buildsToShow: number): Formatter {
+    return new PullRequestFormatter(this, verbose, buildsToShow);
   }
 }
