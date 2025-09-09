@@ -13,7 +13,7 @@ describe("PullRequestFormatter", function () {
       title: "Mock Pull Request Data",
       isDraft: true,
     });
-    const formatted = pr.formatter(false).string();
+    const formatted = pr.formatter(false, 10).string();
 
     assert.strictEqual(
       formatted,
@@ -30,7 +30,7 @@ describe("PullRequestFormatter", function () {
       title: "More Pull Request Data",
       isDraft: false,
     });
-    const formatted = pr.formatter(false).string();
+    const formatted = pr.formatter(false, 10).string();
 
     assert.strictEqual(
       formatted,
@@ -92,7 +92,7 @@ describe("PullRequestFormatter", function () {
       statuses,
       requestedReviews,
     });
-    const formatted = pr.formatter(false).string();
+    const formatted = pr.formatter(false, 10).string();
 
     assert.strictEqual(
       formatted,
@@ -164,7 +164,7 @@ describe("PullRequestFormatter", function () {
       statuses,
       requestedReviews,
     });
-    const formatted = pr.formatter(true).string();
+    const formatted = pr.formatter(true, 10).string();
 
     assert.strictEqual(
       formatted,
@@ -212,7 +212,7 @@ describe("PullRequestFormatter", function () {
       statuses,
       requestedReviews,
     });
-    const formatted = pr.formatter(false).string();
+    const formatted = pr.formatter(false, 10).string();
 
     assert.strictEqual(
       formatted,
@@ -254,7 +254,7 @@ describe("PullRequestFormatter", function () {
       statuses,
       requestedReviews,
     });
-    const formatted = pr.formatter(true).string();
+    const formatted = pr.formatter(true, 10).string();
 
     assert.strictEqual(
       formatted,
@@ -264,6 +264,76 @@ describe("PullRequestFormatter", function () {
         "  ✅ suite / run [success]",
         "  ✅ context [success]",
         "  ✅ malachite: @reviewer0",
+      ].join("\n")
+    );
+  });
+
+  it("renders a pull request with a specified number of visible builds", function () {
+    const statuses = [
+      buildCheckRunStatus({
+        status: "PENDING",
+        suiteName: "suite",
+        runName: "status0",
+      }),
+      buildCheckRunStatus({
+        status: "COMPLETED",
+        conclusion: "SUCCESS",
+        suiteName: "suite",
+        runName: "status1",
+      }),
+      buildCheckRunStatus({
+        status: "COMPLETED",
+        conclusion: "FAILURE",
+        suiteName: "suite",
+        runName: "status2",
+        url: "https://check-run.org/failed",
+      }),
+      buildContextStatus({
+        context: "status3",
+        state: "PENDING",
+      }),
+      buildContextStatus({
+        context: "status4",
+        state: "SUCCESS",
+      }),
+      buildContextStatus({
+        context: "status5",
+        state: "FAILURE",
+        url: "https://context.net/failed",
+      }),
+    ];
+
+    const requestedReviews = [
+      buildRequestedReview({teamName: "slate"}),
+      buildRequestedReview({
+        teamName: "talc",
+        receivedReviews: [
+          buildReview({reviewer: "reviewer0", state: "APPROVED"}),
+        ],
+      }),
+    ];
+
+    const pr = buildPullRequest({
+      url: "https://github.com/smashwilson/pr-status/pulls/3",
+      title: "Truncated Pull Request Data",
+      statuses,
+      requestedReviews,
+    });
+    const formatted = pr.formatter(true, 3).string();
+
+    assert.strictEqual(
+      formatted,
+      [
+        chalk.underline("https://github.com/smashwilson/pr-status/pulls/3"),
+        chalk.bold("Truncated Pull Request Data") +
+          " [builds 2 / 6] [reviews 1 / 2]",
+        "  ⏳ suite / status0",
+        "  ✅ suite / status1 [success]",
+        "  ❌ suite / status2 [failure] " +
+          chalk.underline("https://check-run.org/failed"),
+        "  [+ 1 pending 1 failed 1 succeeded builds]",
+        "  ⏳ slate",
+        "  ✅ talc: @reviewer0",
       ].join("\n")
     );
   });

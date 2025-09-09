@@ -32,11 +32,12 @@ Commands:
   version  Display version
 
 Options:
-  -h, --help         Output usage information
+  -h, --help                 Output usage information
+  -n, --num-builds <n>       Number of builds to show (defaults to 10)
   -p, --pull-request <list>  Limit results to individually identified pull requests (defaults to [])
-  -r, --repo <list>  Limit results to PRs in this repo (defaults to [])
-  -t, --token        GitHub API token used for queries (defaults to "")
-  -v, --verbose      Include successful builds in output (disabled by default)
-  -V, --version      Output the version number
-  -w, --wait         Poll for updates (disabled by default)
+  -r, --repo <list>          Limit results to PRs in this repo (defaults to [])
+  -t, --token                GitHub API token used for queries (defaults to "")
+  -v, --verbose              Include successful builds in output (disabled by default)
+  -V, --version              Output the version number
+  -w, --wait                 Poll for updates (disabled by default)
 ```
