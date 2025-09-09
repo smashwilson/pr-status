@@ -25,7 +25,7 @@ If omitted and a `GITHUB_REPOSITORY` environment variable is present and non-emp
 Otherwise, here's the usage:
 
 ```
-Usage: pr status [options] [command]
+Usage: pr-status [options] [command]
 
 Commands:
   help     Display help
