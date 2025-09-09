@@ -5,10 +5,12 @@ import {Formatter} from "./formatter.js";
 export class PullRequestFormatter implements Formatter {
   pullRequest: PullRequest;
   verbose: boolean;
+  buildsToShow: number;
 
-  constructor(pullRequest: PullRequest, verbose: boolean) {
+  constructor(pullRequest: PullRequest, verbose: boolean, buildsToShow: number) {
     this.pullRequest = pullRequest;
     this.verbose = verbose;
+    this.buildsToShow = buildsToShow;
   }
 
   string(): string {
@@ -67,7 +69,7 @@ export class PullRequestFormatter implements Formatter {
       : this.pullRequest.statuses.filter(
           (status) => status.isPending() || status.isFailed()
         );
-    const visibleBuilds = includedBuilds.slice(0, 15);
+    const visibleBuilds = includedBuilds.slice(0, this.buildsToShow);
 
     const hiddenBuilds = new Set(this.pullRequest.statuses);
     for (const build of visibleBuilds) {
