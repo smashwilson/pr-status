@@ -147,7 +147,7 @@ describe("Invocation", function () {
     it("accepts the number of builds to show with the -n flag", function () {
       const i = Invocation.configuredFrom(
         args("-n", "17", "--repo", "smashwilson/pr-status"),
-        {GITHUB_TOKEN: "RIGHTTOKEN"},
+        {GITHUB_TOKEN: "RIGHTTOKEN"}
       );
       assert.strictEqual(17, i.buildsToShow);
     });
@@ -155,7 +155,7 @@ describe("Invocation", function () {
     it("defaults to 10 visible builds", function () {
       const i = Invocation.configuredFrom(
         args("--repo", "smashwilson/pr-status"),
-        {GITHUB_TOKEN: "RIGHTTOKEN"},
+        {GITHUB_TOKEN: "RIGHTTOKEN"}
       );
       assert.strictEqual(10, i.buildsToShow);
     });
@@ -207,7 +207,7 @@ describe("Invocation", function () {
         [{owner: "the-owner", name: "a-name", number: 123}],
         false,
         false,
-        10,
+        10
       );
       await i.execute();
 

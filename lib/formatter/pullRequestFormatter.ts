@@ -7,7 +7,11 @@ export class PullRequestFormatter implements Formatter {
   verbose: boolean;
   buildsToShow: number;
 
-  constructor(pullRequest: PullRequest, verbose: boolean, buildsToShow: number) {
+  constructor(
+    pullRequest: PullRequest,
+    verbose: boolean,
+    buildsToShow: number
+  ) {
     this.pullRequest = pullRequest;
     this.verbose = verbose;
     this.buildsToShow = buildsToShow;

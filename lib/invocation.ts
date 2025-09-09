@@ -214,7 +214,9 @@ export class Invocation {
     return this.write(
       pullRequests
         .map(
-          (pullRequest) => pullRequest.formatter(this.verbose, this.buildsToShow).string() + "\n"
+          (pullRequest) =>
+            pullRequest.formatter(this.verbose, this.buildsToShow).string() +
+            "\n"
         )
         .join("\n")
     );
