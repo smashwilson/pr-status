@@ -28,6 +28,7 @@ export class Invocation {
   pullRequests: PullRequestDesignator[];
   wait: boolean;
   verbose: boolean;
+  buildsToShow: number;
   graphql: GraphQL;
   output: OutputWriter;
 
@@ -38,13 +39,15 @@ export class Invocation {
     repos: string[] = [],
     pullRequests: PullRequestDesignator[] = [],
     wait: false,
-    verbose: false
+    verbose: false,
+    buildsToShow: number
   ) {
     this.token = token;
     this.repos = repos;
     this.pullRequests = pullRequests;
     this.wait = wait;
     this.verbose = verbose;
+    this.buildsToShow = buildsToShow;
     this.graphql = graphql;
     this.output = output;
   }
@@ -58,6 +61,7 @@ export class Invocation {
         "Limit results to individually identified pull requests",
         []
       )
+      .option(["n", "num-builds"], "Number of builds to show", 10)
       .option(["w", "wait"], "Poll for updates", false)
       .option(["v", "verbose"], "Include successful builds in output", false);
     const flags = args.parse(argv);
@@ -108,7 +112,8 @@ export class Invocation {
       repos,
       pullRequests,
       flags.wait,
-      flags.verbose
+      flags.verbose,
+      flags.n
     );
   }
 
