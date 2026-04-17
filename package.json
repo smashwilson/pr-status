@@ -37,7 +37,7 @@
     "nested-builder": "^1.1.1",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2"
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "args": "^5.0.3",
