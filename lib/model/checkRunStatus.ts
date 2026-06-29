@@ -3,12 +3,7 @@ import {Formatter} from "../formatter/formatter.js";
 import {Status} from "./status.js";
 
 export type CheckStatusState =
-  | "QUEUED"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "WAITING"
-  | "PENDING"
-  | "REQUESTED";
+  "QUEUED" | "IN_PROGRESS" | "COMPLETED" | "WAITING" | "PENDING" | "REQUESTED";
 
 export type CheckConclusionState =
   | "ACTION_REQUIRED"
