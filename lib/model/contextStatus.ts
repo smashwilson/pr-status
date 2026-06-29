@@ -3,11 +3,7 @@ import {Formatter} from "../formatter/formatter.js";
 import {Status} from "./status.js";
 
 export type StatusState =
-  | "EXPECTED"
-  | "ERROR"
-  | "FAILURE"
-  | "PENDING"
-  | "SUCCESS";
+  "EXPECTED" | "ERROR" | "FAILURE" | "PENDING" | "SUCCESS";
 
 const PENDING_STATES: Set<StatusState> = new Set(["EXPECTED", "PENDING"]);
 

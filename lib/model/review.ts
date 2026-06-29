@@ -1,9 +1,5 @@
 export type ReviewState =
-  | "PENDING"
-  | "COMMENTED"
-  | "APPROVED"
-  | "CHANGES_REQUESTED"
-  | "DISMISSED";
+  "PENDING" | "COMMENTED" | "APPROVED" | "CHANGES_REQUESTED" | "DISMISSED";
 
 const OPINIONATED_STATES = new Set<ReviewState>([
   "APPROVED",
